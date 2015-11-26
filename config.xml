@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<widget id="ru.shopquest" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="ru.shopquest" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" android-versionCode="2">
   <name>Shopquest</name>
   <description>
         Shopquest application.
@@ -37,4 +37,7 @@
   <vs:plugin name="cordova-plugin-mauron85-background-geolocation" version="0.7.3" src="https://github.com/mauron85/cordova-plugin-background-geolocation.git" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" />
   <vs:plugin name="cordova-plugin-splashscreen" version="3.0.0" src="https://git-wip-us.apache.org/repos/asf/cordova-plugin-splashscreen.git" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" />
   <vs:plugin name="cordova-plugin-crosswalk-webview" version="1.4.0" src="https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview.git" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" />
+  <preference name="android-minSdkVersion" value="14" />
+  <preference name="android-maxSdkVersion" value="23" />
+  <preference name="android-targetSdkVersion" value="20" />
 </widget>

@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+    <!--
+    Customize this policy to fit your own app's needs. For more guidance, see:
+        https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+    Some notes:
+        * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+        * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+        * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+            * Enable inline JS: add 'unsafe-inline' to default-src
+    -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- <link rel="stylesheet" type="text/css" href="css/index.css"> -->
+    <title>ShopQuest</title>
+</head>
+<body>
+
+    <script type="text/javascript" src="cordova.js"></script>
+</body>
+<script>
+        document.addEventListener('deviceready', onDeviceReady, false);
+
+        var settings = {
+            serverUrl: 'http://shopquest.ru/ShopQuest/client?setLocation',
+        };
+
+        function onDeviceReady() {
+             var w = window.open('http://shopquest.ru/ShopQuest', '_blank');
+
+             w.addEventListener('load', function() {
+                //navigator.splashscreen.hide();
+             }, true);
+
+            /** This callback will be executed every time a geolocation is recorded in the background. */
+            var callbackFn = function (location) {
+                console.log('[js] BackgroundGeoLocation callback:  ' + location.latitude + ',' + location.longitude);
+                alert("geo callback");
+
+                // Do your HTTP request here to POST location to your server.
+
+                jQuery.ajax({
+                    url: settings.serverUrl,
+                    data: {
+                        gpsLongtitude: location.longitude,
+                        gpsLatitude: location.latitude
+                    },
+                    success: function (data) {
+                        $('#response').text(data);
+                        alert(data);
+                    }
+                }).always(function () {
+                    backgroundGeoLocation.finish();
+                });
+            };
+
+            var failureFn = function (error) {
+                console.log('BackgroundGeoLocation error');
+            };
+
+            // BackgroundGeoLocation is highly configurable. See platform specific configuration options
+            backgroundGeoLocation.configure(callbackFn, failureFn, {
+                desiredAccuracy: 10,
+                stationaryRadius: 20,
+                distanceFilter: 30,
+                debug: false, // <-- enable this hear sounds for background-geolocation life-cycle.
+                stopOnTerminate: false // <-- enable this to clear background location settings when the app terminates
+            });
+
+            // Turn ON the background-geolocation system.  The user will be tracked whenever they suspend the app.
+            backgroundGeoLocation.start();
+
+        }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</html>
